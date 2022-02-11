@@ -30,3 +30,6 @@ def insertionSort(data):
             comp = comp + 1
         data[j+1] = find
     return comp
+
+
+print()
