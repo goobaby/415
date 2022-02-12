@@ -52,14 +52,27 @@ print("Type User or Scatter for mode:")
 mode = input()
 
 if (mode == "User" or mode == "user"):
-    print("Location of the directory to Sort:")
-    directory = input()
+    currentDir = os.getcwd()
+    #print(currentDir)
+    pathToGo = currentDir + r'\Project01\Project01a\smallSet' #MAC AND LINUX NO SUPPORT HERE
+    #print(pathToGo)
+    os.chdir(pathToGo)
+    directory = os.getcwd()
+    #print(currentDir)
+    #print("Location of the directory to Sort:")
+    #directory = input()
 
     print("Size of list to sort (10 - 100 increments of 10):")
     sizeOfList = input()
+    ErrorCheck = sizeOfList
+    ErrorCheck = int(ErrorCheck) #Note I hate how everything isnt local
+    if ErrorCheck % 10 != 0:
+        print("Not increment of 10!")
+        exit()
     
-    os.chdir(directory)
+    #os.chdir(directory)
     for file in os.listdir():
+        #print(file)
         if file.endswith('.txt') and file.find(sizeOfList + ".") != -1:
             #or file.find(sizeOfList + "_") != -1):
             # Create the filepath of particular file
@@ -92,6 +105,27 @@ elif(mode == "test" or mode == "Test"):
             print("Insertion Sort:")
             print(A[1][2])
 
+elif (mode == "scatter" or mode == "Scatter"):
+    plt.title("Sorting")
+    plt.xlabel("Size of n")
+    plt.ylabel("Number of Comparisons")
+    currentDir = os.getcwd()
+    pathToGo = currentDir + r'\Project01\Project01a\testSet' #MAC AND LINUX NO SUPPORT HERE
+    os.chdir(pathToGo)
+    currentDir = os.getcwd()
+    for file in os.listdir():
+        if file.endswith('.txt'):
+            # Create the filepath of particular file
+            filePathString = f"{currentDir}/{file}"
+            print(filePathString)
+            
+            A = read_files(filePathString)
+            plt.plot(A[0][0], A[0][1], 'r^', alpha=0.75) #selection
+            plt.plot(A[1][0], A[1][1], 'bo', alpha=0.75) #insertion
+
+    plt.show()
+
+    
 
 
 
