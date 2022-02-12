@@ -20,7 +20,7 @@ def selectionSort(data):
                 min = j
                 comp = comp + 1
         data[i], data[min] = data[min], data[i]        
-    return comp, data
+    return len(data), comp
 
 def insertionSort(data):
     comp = 0
@@ -28,19 +28,22 @@ def insertionSort(data):
         find = data[i]
         
         j = i - 1
+        #plus more?
         while j >= 0 and find < data[j]:
             data[j+1] = data[j]
             j -= 1
             comp = comp + 1
         data[j+1] = find
-    return comp, data
+    return len(data), comp
 
 def read_files(file_path):
     
     with open(file_path, 'r') as file:
-        selectionSortArray_String = file.read().splitlines()
-        selectionSortArray_Int =  list(map(int, selectionSortArray_String))
+        SortArray_String = file.read().splitlines()
+        selectionSortArray_Int =  list(map(int, SortArray_String))
+        insertionSortArray_Int =  list(map(int, SortArray_String))
         print(selectionSort(selectionSortArray_Int))
+        print(insertionSort(insertionSortArray_Int))
  
     file.close()
         
