@@ -20,7 +20,7 @@ def selectionSort(data):
                 min = j
                 comp = comp + 1
         data[i], data[min] = data[min], data[i]        
-    return len(data), comp
+    return len(data), comp, data
 
 def insertionSort(data):
     comp = 0
@@ -34,7 +34,7 @@ def insertionSort(data):
             j -= 1
             comp = comp + 1
         data[j+1] = find
-    return len(data), comp
+    return len(data), comp, data
 
 def read_files(file_path):
     
@@ -42,8 +42,9 @@ def read_files(file_path):
         SortArray_String = file.read().splitlines()
         selectionSortArray_Int =  list(map(int, SortArray_String))
         insertionSortArray_Int =  list(map(int, SortArray_String))
-        print(selectionSort(selectionSortArray_Int))
-        print(insertionSort(insertionSortArray_Int))
+        #print(selectionSort(selectionSortArray_Int))
+        #print(insertionSort(insertionSortArray_Int))
+        return selectionSort(selectionSortArray_Int), insertionSort(insertionSortArray_Int)
  
     file.close()
         
@@ -62,9 +63,14 @@ if (mode == "User" or mode == "user"):
         if file.endswith('.txt') and file.find(sizeOfList + ".") != -1:
             #or file.find(sizeOfList + "_") != -1):
             # Create the filepath of particular file
-            file_path =f"{directory}/{file}"
-            print(file_path)
-            read_files(file_path)    
+            filePathString = f"{directory}/{file}"
+            #print(filePathString)
+            
+            A = read_files(filePathString)
+            print("Selection Sort:")
+            print(A[0][2])
+            print("Insertion Sort:")
+            print(A[1][2])
 
 elif(mode == "test" or mode == "Test"):
     print("Location of the directory to Sort:")
@@ -80,7 +86,11 @@ elif(mode == "test" or mode == "Test"):
             filePathString = f"{directory}/{file}"
             print(filePathString)
             
-            read_files(filePathString)
+            A = read_files(filePathString)
+            print("Selection Sort:")
+            print(A[0][2])
+            print("Insertion Sort:")
+            print(A[1][2])
 
 
 
