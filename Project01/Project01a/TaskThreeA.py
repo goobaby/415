@@ -85,26 +85,6 @@ if (mode == "User" or mode == "user"):
             print("Insertion Sort:")
             print(A[1][2])
 
-elif(mode == "test" or mode == "Test"):
-    print("Location of the directory to Sort:")
-    directory = input()
-    print("Size of list to sort (10 - 100 increments of 10):")
-    sizeOfList = "10"
-    
-    os.chdir(directory)
-    for file in os.listdir():
-        if file.endswith('.txt') and file.find(sizeOfList + ".") != -1:
-            #or file.find(sizeOfList + "_") != -1):
-            # Create the filepath of particular file
-            filePathString = f"{directory}/{file}"
-            print(filePathString)
-            
-            A = read_files(filePathString)
-            print("Selection Sort:")
-            print(A[0][2])
-            print("Insertion Sort:")
-            print(A[1][2])
-
 elif (mode == "scatter" or mode == "Scatter"):
     plt.title("Sorting")
     plt.xlabel("Size of n")
@@ -114,7 +94,7 @@ elif (mode == "scatter" or mode == "Scatter"):
     os.chdir(pathToGo)
     currentDir = os.getcwd()
     for file in os.listdir():
-        if file.endswith('.txt'):
+        if file.endswith('0.txt'): #all random files end ----0.txt
             # Create the filepath of particular file
             filePathString = f"{currentDir}/{file}"
             print(filePathString)
@@ -122,9 +102,28 @@ elif (mode == "scatter" or mode == "Scatter"):
             A = read_files(filePathString)
             plt.plot(A[0][0], A[0][1], 'r^', alpha=0.75) #selection
             plt.plot(A[1][0], A[1][1], 'bo', alpha=0.75) #insertion
-
     plt.show()
-
+    plt.clf()
+    for file in os.listdir():
+        if file.endswith('_rSorted.txt'):
+            # Create the filepath of particular file
+            filePathString = f"{currentDir}/{file}"
+            print(filePathString)
+            B = read_files(filePathString)
+            plt.plot(B[0][0], B[0][1], 'r^', alpha=0.75) #selection
+            plt.plot(B[1][0], B[1][1], 'bo', alpha=0.75) #insertion
+    plt.show()
+    plt.clf()            
+    for file in os.listdir():
+        if file.endswith('_sorted.txt'): #all random files end ----0.txt
+            # Create the filepath of particular file
+            filePathString = f"{currentDir}/{file}"
+            print(filePathString)
+            
+            C = read_files(filePathString)
+            plt.plot(C[0][0], C[0][1], 'r^', alpha=0.75) #selection
+            plt.plot(C[1][0], C[1][1], 'bo', alpha=0.75) #insertion
+    plt.show()
     
 
 
