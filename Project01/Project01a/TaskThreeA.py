@@ -1,14 +1,29 @@
 import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
 plt.style.use('seaborn-whitegrid')
 import numpy as np
 import os
 import sys
+import time
         
 #fileToOpen = open(file, "r")
 #dataList = fileToOpen.read()
 #print(dataList)
 #fileToOpen.close()
 #idk if file has bad open exceptions
+def setupToolbar():
+    # setup toolbar
+    sys.stdout.write("[%s" % (" " * 4))
+    sys.stdout.flush()
+    sys.stdout.write("\b" * (4+1)) # return to start of line, after '['
+    
+def setupLegend(title, xlabel, ylabel):
+    plt.title(title)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    redlegend = mpatches.Patch(color='red', label='Selection Sort')
+    bluelegend = mpatches.Patch(color='blue', label='Insertion Sort')
+    plt.legend(handles=[redlegend, bluelegend])
 
 def selectionSort(data):
     
@@ -44,9 +59,8 @@ def read_files(file_path):
         insertionSortArray_Int =  list(map(int, SortArray_String))
         #print(selectionSort(selectionSortArray_Int))
         #print(insertionSort(insertionSortArray_Int))
+        file.close()
         return selectionSort(selectionSortArray_Int), insertionSort(insertionSortArray_Int)
- 
-    file.close()
         
 print("Type User or Scatter for mode:")
 mode = input()
@@ -72,8 +86,8 @@ if (mode == "User" or mode == "user"):
     
     #os.chdir(directory)
     for file in os.listdir():
-        #print(file)
-        if file.endswith('.txt') and file.find(sizeOfList + ".") != -1:
+        #print(len(os.listdir()))
+        if file.endswith('.txt') and file.find(sizeOfList + "_sorted.") != -1:
             #or file.find(sizeOfList + "_") != -1):
             # Create the filepath of particular file
             filePathString = f"{directory}/{file}"
@@ -82,47 +96,140 @@ if (mode == "User" or mode == "user"):
             A = read_files(filePathString)
             print("Selection Sort:")
             print(A[0][2])
+            print(A[0][1])
             print("Insertion Sort:")
             print(A[1][2])
+            print(A[1][1])            
 
 elif (mode == "scatter" or mode == "Scatter"):
-    plt.title("Sorting")
-    plt.xlabel("Size of n")
-    plt.ylabel("Number of Comparisons")
+
+    #getting directory from local machine
     currentDir = os.getcwd()
     pathToGo = currentDir + r'\Project01\Project01a\testSet' #MAC AND LINUX NO SUPPORT HERE
     os.chdir(pathToGo)
     currentDir = os.getcwd()
+    
+    #-------------------------------------------------------------------------------
+    setupToolbar()
+    
+    percentage = 0
+    counter100 = 0
+    amountOfFiles= len(os.listdir())
+    
+    print("Loading " + str(amountOfFiles) + " files...")
+    
     for file in os.listdir():
+        time.sleep(0.1)
         if file.endswith('0.txt'): #all random files end ----0.txt
             # Create the filepath of particular file
             filePathString = f"{currentDir}/{file}"
-            print(filePathString)
+            #print(filePathString)
             
             A = read_files(filePathString)
             plt.plot(A[0][0], A[0][1], 'r^', alpha=0.75) #selection
             plt.plot(A[1][0], A[1][1], 'bo', alpha=0.75) #insertion
+            
+        counter100 += 1
+        percentage += (1/amountOfFiles)*100
+        percentage = round(percentage,2)
+        if counter100 == amountOfFiles:
+            sys.stdout.write("\r[" + "100.0" + "%] \nLoaded!")
+        elif percentage < 1:
+            continue
+        elif(percentage == 1):
+            sys.stdout.write(str(percentage) + "%]")
+        elif(percentage<100):
+            sys.stdout.write("\r[" + str(percentage) + "%]")#\b\b\b\b\b\b\b
+        else:
+            sys.stdout.write("\r[" + "100" + "%]")
+        sys.stdout.flush()
+
+    
+    #setting up legend
+    setupLegend("Sorting(Average case)","Size of n","Number of Comparisons")
+    
+    sys.stdout.write("]\n")
     plt.show()
     plt.clf()
+    
+    #------------------------------------------------------------------------------------
+    
+    setupToolbar()
+    
+    percentage = 0
+    counter100 = 0
+    
+    print("Loading " + str(amountOfFiles) + " files...")
+    
     for file in os.listdir():
+        time.sleep(0.1)
         if file.endswith('_rSorted.txt'):
             # Create the filepath of particular file
             filePathString = f"{currentDir}/{file}"
-            print(filePathString)
+            #print(filePathString)
             B = read_files(filePathString)
             plt.plot(B[0][0], B[0][1], 'r^', alpha=0.75) #selection
             plt.plot(B[1][0], B[1][1], 'bo', alpha=0.75) #insertion
+
+        counter100 += 1
+        percentage += (1/amountOfFiles)*100
+        percentage = round(percentage,2)
+        if counter100 == amountOfFiles:
+            sys.stdout.write("\r[" + "100.0" + "%] \nLoaded!")
+        elif percentage < 1:
+            continue
+        elif(percentage == 1):
+            sys.stdout.write(str(percentage) + "%]")
+        elif(percentage<100):
+            sys.stdout.write("\r[" + str(percentage) + "%]")#\b\b\b\b\b\b\b
+        else:
+            sys.stdout.write("\r[" + "100" + "%]")
+        sys.stdout.flush() 
+    
+    setupLegend("Sorting(Worst case)","Size of n","Number of Comparisons")
+       
+    sys.stdout.write("]\n")
     plt.show()
-    plt.clf()            
+    plt.clf()
+    
+    #-----------------------------------------------------------------------
+    setupToolbar()
+    
+    percentage = 0
+    counter100 = 0
+    
+    print("Loading " + str(amountOfFiles) + " files...")
+    
     for file in os.listdir():
+        time.sleep(0.1)
+        
         if file.endswith('_sorted.txt'): #all random files end ----0.txt
             # Create the filepath of particular file
             filePathString = f"{currentDir}/{file}"
-            print(filePathString)
+            #print(filePathString)
             
             C = read_files(filePathString)
             plt.plot(C[0][0], C[0][1], 'r^', alpha=0.75) #selection
             plt.plot(C[1][0], C[1][1], 'bo', alpha=0.75) #insertion
+            
+        counter100 += 1
+        percentage += (1/amountOfFiles)*100
+        percentage = round(percentage,2)
+        if counter100 == amountOfFiles:
+            sys.stdout.write("\r[" + "100.0" + "%] \nLoaded!")
+        elif percentage < 1:
+            continue
+        elif(percentage == 1):
+            sys.stdout.write(str(percentage) + "%]")
+        elif(percentage<100):
+            sys.stdout.write("\r[" + str(percentage) + "%]")#\b\b\b\b\b\b\b
+        else:
+            sys.stdout.write("\r[" + "100" + "%]")
+        sys.stdout.flush()
+    
+    setupLegend("Sorting(Best case)","Size of n","Number of Comparisons")
+    
+    sys.stdout.write("]\n")
     plt.show()
     
 
