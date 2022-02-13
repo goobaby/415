@@ -8,7 +8,7 @@ def setupToolbar():
     sys.stdout.flush()
     sys.stdout.write("\b" * (4+1)) # return to start of line, after '['
 
-amountOfFiles = 300
+amountOfFiles = 1000
 setupToolbar()
 
 percentage = 0
