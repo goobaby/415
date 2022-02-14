@@ -42,7 +42,7 @@ print("end")
 #sys.stdout.flush()
 #sys.stdout.write("\b" * (amountOfFiles+1))
 #for i in range(amountOfFiles):
-    #time.sleep(0.1) # do real work here
+    #time.sleep(0.1) # do real work here 
     # update the bar
     #sys.stdout.write("-")
     #sys.stdout.flush()
