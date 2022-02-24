@@ -1,6 +1,9 @@
 import sys
-sys.path.append("utils")
+sys.path.append("../")
 sys.path.append("Project01")
 import TaskOne
-from UserTestingMode import Task
-Task.start()
+import TaskTwo
+import TaskThree
+import UserTestingMode
+import ScatterplotMode
+ScatterplotMode.Task.start()
