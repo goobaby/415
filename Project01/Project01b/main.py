@@ -1,9 +1,9 @@
-import sys
-sys.path.append("../")
-sys.path.append("Project01")
 import TaskOne
 import TaskTwo
 import TaskThree
 import UserTestingMode
 import ScatterplotMode
-ScatterplotMode.Task.start()
+if input("Scatterplot mode? (y/n):")[0].lower() != 'y':
+    UserTestingMode.Task.start()
+else:
+    ScatterplotMode.Task.start()

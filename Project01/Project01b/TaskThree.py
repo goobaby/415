@@ -2,7 +2,7 @@ from math import ceil, floor,sqrt
 import UserTestingMode
 import ScatterplotMode
 def sieve(m,n):
-    if n > m:
+    if n < m:
         n,m = m,n
     adds = 1
     A = list(range(m+1))
@@ -46,11 +46,18 @@ def middleSchoolStepThree(mFactors,nFactors):
             nIndex -= 1
     return mFactors[mIndex], ops
 
-def havardMiddleSchoolGCD(n):
+def harvardMiddleSchoolGCD(n):
+    opsSum = 0
     for i in range(1,n+1):
         primesToI, ops = sieve(n,i)
+        opsSum += ops
         nFactors, iFactors, opsTwo = middleSchoolStepTwo(primesToI,n,i)
+        opsSum += opsTwo
         opsThree = middleSchoolStepThree(nFactors,iFactors)[1]
+        opsSum += opsThree
+    print("Middle School Method took",opsSum / float(n),"operations on average.")
+    return ""
+    #return opsSum / float(n)
 
 def SPSieveWrapper(n):
     opsSum = 0
@@ -70,13 +77,13 @@ def SPStepTwoWrapper(n):
 
 def SPStepThreeWrapper(n):
     opsSum = 0
-    primesToN, ops = sieve(n,0)
     for i in range(1,n+1):
+        primesToN, ops = sieve(n,i)
         nFactors, iFactors, opsTwo = middleSchoolStepTwo(primesToN,n,i)
         opsThree = middleSchoolStepThree(nFactors,iFactors)[1]
         opsSum += opsThree
     return opsSum / float(n)
 
-UserTestingMode.Task(2,"3","MSPAvg Calculator",["tests up to n to average"],[int],havardMiddleSchoolGCD)
-ScatterplotMode.Task(2,"3","MSPAvg Basic Operations","set of integers up to and including n","Average Basic Operations",range(2,300,2),
+UserTestingMode.Task(2,"3","MSPAvg Calculator",["tests up to n to average"],[int],harvardMiddleSchoolGCD)
+ScatterplotMode.Task(2,"3","MSPAvg Basic Operations","set of integers up to and including n","Average Basic Operations",range(2,150),
 ["Sieve of Eratosthenes", "Building Prime Factors", "Finding Common Factors"],[SPSieveWrapper,SPStepTwoWrapper,SPStepThreeWrapper])

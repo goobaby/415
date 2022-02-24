@@ -19,6 +19,8 @@ def taskDos(n):
     for i in range(1,n+1):
         euclidSum += euclidGCD(n,i)[1]
         intCheckSum += intGCDCheck(n,i)[1]
+    print("Average ops with Euclid's Algorithm: ",euclidSum/float(n))
+    print("Average ops with Consectutive Algorithm: ",intCheckSum/float(n))
     return euclidSum/float(n),intCheckSum/float(n)
 
 def taskDosEuclid(n):
@@ -34,4 +36,4 @@ def taskDosInt(n):
     return intCheckSum/float(n)
 
 UserTestingMode.Task(1,"2","MDavg and Davg for some n",["maximum number to test up to"],[int],taskDos)
-ScatterplotMode.Task(1,"2","MDavg and Davg Comparison","Average up to n","Basic Operations",range(2,1000,4),["Euclid's Algorithm","Brute Force"], [taskDosEuclid,taskDosInt])
+ScatterplotMode.Task(1,"2","MDavg and Davg Comparison","Average up to n","Basic Operations",range(2,150),["Euclid's Algorithm","Brute Force"], [taskDosEuclid,taskDosInt])

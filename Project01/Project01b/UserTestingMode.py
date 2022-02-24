@@ -16,8 +16,8 @@ class Task():
         argsGiven = []
         for i in range(len(self.argsText)):
             argsGiven.append(self.argsType[i](input(self.argsText[i] + ": ")))
-        self.func(*argsGiven)
-        #print(self.func(*argsGiven))
+        #self.func(*argsGiven)
+        print(self.func(*argsGiven))
 
     @staticmethod
     def start():
