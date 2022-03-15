@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<script src="main.js"></script>
+<html>
+    <head>
+        <style>
+            .whitetext {color: white;}
+            body{background-color: black}
+            table{border-style: ridge; border-width: 10px; border-color: white; padding: 10px; padding-right: 20px; padding-bottom: 20px;}
+            td{border-style: groove; border-width: 10px; border-color: white; padding: 5px; color: black; font-family: arial;}
+            tr{border-style: groove; border-width: 10px; border-color: white;}
+            th{font-family: arial; color: white; padding: 5px;}
+        </style>
+    </head>
+<body>
+    <table>
+      <tr>
+        <th></th>
+        <th></th>
+      </tr>
+      <tr>
+        <th></th>
+        <td><input type="number" id="htmlInput" onchange="myFunction()"></td>
+        <td class="whitetext" id="output"></td>
+      </tr>
+    </table>
+ <script>
+		function myFunction() {
+    		var inputJavascript = document.getElementById("htmlInput").value;
+		document.getElementById("output").innerHTML = inputJavascript;
+		}
+	</script>
+</body>
+</html>
