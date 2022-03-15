@@ -32,6 +32,15 @@
     return tenToN * c0 + tenToHalf * c1 + c2
     //return tenToN * c0 + tenToHalf * (karatsuba_mult(a1 + a0, b1 + b0) - c3) + c2;
     //return tenToN * c0 + tenToHalf * (karatsuba_mult(a1 + a0, b1 + b0) - karatsuba_mult(a1, b1) - karatsuba_mult(a0, b0)) + c2;
- }
+}
 
- console.log(karatsuba_mult(2135, 4014));
+function Exponentiation(a, n) {
+    if (n == 0)
+        return 1;
+    if ((n % 2 == 0) && (n > 0) )
+        return karatsuba_mult(Exponentiation(a, n/2), Exponentiation(a, n/2));
+    if (n % 2 == 1)
+        return karatsuba_mult( karatsuba_mult(Exponentiation(a, (n-1)/2), Exponentiation(a, (n-1)/2)), a);
+}
+
+//console.log(Exponentiation(2,3));
