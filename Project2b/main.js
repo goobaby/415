@@ -51,7 +51,7 @@ window.onload = function() {
     }
 
     function calcTwo(x,y) {
-        calculated.value = toFixed(Exponentiation(x, y));
+        calculated.value = Exponentiation(x, y);
     }
 
     function finalDestination() {
