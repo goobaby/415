@@ -46,12 +46,32 @@ window.onload = function() {
             return karatsuba_mult( karatsuba_mult(Exponentiation(a, (n-1)/2), Exponentiation(a, (n-1)/2)), a);
     }
 
+    //FUNCTION FROM https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed
+    function toFixed(x) {
+        if (Math.abs(x) < 1.0) {
+          var e = parseInt(x.toString().split('e-')[1]);
+          if (e) {
+              x *= Math.pow(10,e-1);
+              x = '0.' + (new Array(e)).join('0') + x.toString().substring(2);
+          }
+        } 
+        else {
+          var e = parseInt(x.toString().split('+')[1]);
+          if (e > 20) {
+              e -= 20;
+              x /= Math.pow(10,e);
+              x += (new Array(e+1)).join('0');
+          }
+        }
+        return x;
+    }
+    //-------------------------------
     function calcOne(x,y) { 
         calculated.value = karatsuba_mult(x, y);
     }
 
     function calcTwo(x,y) {
-        calculated.value = Exponentiation(x, y);
+        calculated.value = toFixed(Exponentiation(x, y));
     }
 
     function finalDestination() {
@@ -65,5 +85,5 @@ window.onload = function() {
             calculated.value = "NA";
         }
     }
+    //console.log(Exponentiation(100,100));
 }
-//console.log(Exponentiation(2,3));
