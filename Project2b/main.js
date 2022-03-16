@@ -37,6 +37,8 @@ window.onload = function() {
         //return tenToN * c0 + tenToHalf * (karatsuba_mult(a1 + a0, b1 + b0) - karatsuba_mult(a1, b1) - karatsuba_mult(a0, b0)) + c2;
     }
 
+
+    //Can't return number but be returned as vector/array
     function Exponentiation(a, n) {
         if (n == 0)
             return 1;
