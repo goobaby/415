@@ -85,5 +85,5 @@ window.onload = function() {
             calculated.value = "NA";
         }
     }
-    //console.log(Exponentiation(100,100));
+    console.log(Exponentiation(100,10));
 }
