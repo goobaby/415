@@ -1,9 +1,4 @@
-/**
- * Karatsuba Multiplication
- * @param  {Number} x - first number
- * @param  {Number} y - second number
- * @return {Number} Multiply of x and y
- */
+
  
  function karatsuba_mult(x, y) {
 
