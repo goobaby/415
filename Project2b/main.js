@@ -27,6 +27,7 @@ window.onload = function() {
         let c2 = karatsuba_mult(a1, b1);
 
         //let c1 = karatsuba_mult(a1 + a0, b1 + b0) - karatsuba_mult(a1, b1) - karatsuba_mult(a0, b0);
+        
 
         let c3 = c2 + c0;
         let c1 = karatsuba_mult(a1 + a0, b1 + b0) - c3;
