@@ -58,7 +58,7 @@ window.onload = function() {
         if(Task.value == 0) {
             calcOne(numberOne.value, numberTwo.value);
         }
-        if(Task.value == 1) {
+        else if(Task.value == 1) {
             calcTwo(numberOne.value, numberTwo.value);
         }
         else {
