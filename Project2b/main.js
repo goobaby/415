@@ -8,6 +8,16 @@ window.onload = function() {
     var calculateButton = document.getElementById('calculateButton');
     calculateButton.addEventListener('click', finalDestination);
 
+    console.log(1 < 0.001)
+    console.log(0 < 0.001)
+    console.log(1 < 0.001 || 0 < 0.001 || 0 < 0.001);
+
+    var white = "white"
+    var color = "color"
+    valueTo = 1 < 0.001 || 0 < 0.001 || 0 < 0.001;
+    var fColor = valueTo ? white : color;
+    console.log(fColor);
+
     //var bigInt = require("big-integer");
 
     // function karatsuba_mult(num1, num2) {
