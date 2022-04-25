@@ -2,15 +2,20 @@
 #include<string>
 #include<vector>
 
+#ifndef TWOTHREENODE_H
+#define TWOTHREENODE_H
 
-class twoThreeNode {
+class TwoThreeNode {
     public:
-        twoThreeNode(std::string name)
-        {
-            _name = name;
-            _listContainer = new std::vector<twoThreeNode *>;
-        }
-    private:
-        std::string _name;
-        std::vector<twoThreeNode *> *_listContainer;
+        TwoThreeNode(vector<string> keys, vector<node *> children) :keys(keys), children(children) {};
+        vector<string> keys;
+        vector<node *> children;
+        node * parent;
+        bool isTwoNode();
+        void insert(string key);
+        void find(string key);
+        //void traverse(string key);
+        bool isLeaf();
 }
+
+#endif

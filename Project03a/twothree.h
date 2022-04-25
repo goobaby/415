@@ -6,7 +6,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
-
+#include "TwoThreeNode.h"
 
 using namespace std;
 
@@ -18,17 +18,7 @@ class TwoThree{
         void printTree(ostream & out = cout) const;
         void buildTree(ifstream & input);
     private:
-    struct node{
-	    node(const string &x, node *l, node *r)
-		:key(x), left(l), right(r){
-                lines.resize(0);
-	    }
-	    string key;
-	    node * left;
-	    node * right;
-	    vector<int> lines;
-	};
-	node * root;
+	node * root = nullptr;
 	void insertHelper(const string &X, int line, node *& t, int &distWords);
 	bool containsHelper(const string & x, node * t, node* &result) const;
 	void printTreeHelper(node *t, ostream & out) const;
