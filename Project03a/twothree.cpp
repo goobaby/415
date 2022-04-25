@@ -5,9 +5,20 @@
 #include <string>
 #include <vector>
 
+#include "twoThreeNode.hpp"
+
 using namespace std;
 
 class twoThree{
     public:
-        twoThree();
+        twoThree(): _root(nullptr) {};
+        void insert(twoThreeNode *nNode);
+        twoThreeNode *find(std:: string name);
+        void print() {print(return _root);};
+        twoThreeNode *getRoot() {return _root; };
+    private:
+        void print(twoThreeNode *_root);
+        twoThreeNode *_root;
+
+
 }
