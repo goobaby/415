@@ -17,7 +17,20 @@ bool TwoThreeNode::isLeaf() {
     }
     return true;
 }
+/*(0,4) (-1,1,5)
+2
+(0,4,null)
+(0,2,4)
 
+j = 2
+(-1,3,5,nullptr)
+while j < 3
+(-1,3,5,5)
+j = 1
+(-1,3,3,5)
+done
+(-1,3,nullptr,5)
+*/
 int TwoThreeNode::addTo(std::string key, std::vector<int> lines) {
     int i = 0;
     while (i < this->keys.size()){
@@ -28,7 +41,7 @@ int TwoThreeNode::addTo(std::string key, std::vector<int> lines) {
     }
     this->keys.push_back(nullptr);
     this->lines.push_back({});
-    for(int j = i; j < this->keys.size()-1; j++){
+    for(int j = this->keys.size()-2; j >= i; j--){
         this->keys[j+1] = this->keys[j];
         this->lines[j+1] = this->lines[j];
     }
@@ -36,10 +49,16 @@ int TwoThreeNode::addTo(std::string key, std::vector<int> lines) {
     this->lines[i] = lines;
 
     this->children.push_back(nullptr);
-    for(int j = i; j < this->children.size()-1; j++){
+    for(int j = this->children.size()-2; j >= i; j--){
         this->children[j+1] = this->children[j];
     }
-    this->children[i] = nullptr;
+    if(this->children[i] != nullptr){
+        if(this->children[i]->keys[0] > key){
+            this->children[i] = nullptr;
+        } else{
+            this->children[i+1] = nullptr;
+        }
+    }
     return i;
 }
 
@@ -56,7 +75,7 @@ void TwoThreeNode::promote() {
     TwoThreeNode cplusplusIsIncrediblyBad = TwoThreeNode({this->keys[2]},{this->lines[2]},{this->children[2],this->children[3]},this->parent);
     this->parent->children[promotedPos] = &cplusplusIsReallyBad;
     this->parent->children[promotedPos+1] = &cplusplusIsIncrediblyBad;
-    if (this->parent->keys.size() > 3){
+    if (this->parent->keys.size() > 2){
         this->parent->promote();
     }
     delete this;
@@ -79,15 +98,18 @@ void TwoThreeNode::insert(std::string key) {
 }
 
 TwoThreeNode * TwoThreeNode::find(std::string key){
+    if(this == nullptr){
+        return nullptr;
+    }
     for(int i = 0; i < this->keys.size(); i++){
-            if (key < this->keys[i]){
-                return this->children[i]->find(key);
-            }
-            if (key == this->keys[i]) {
-                return this;
-            }
+        if (key < this->keys[i]){
+            return this->children[i]->find(key);
         }
-        return this->children[this->keys.size()]->find(key);
+        if (key == this->keys[i]) {
+            return this;
+        }
+    }
+    return this->children[this->keys.size()]->find(key);
 }
 
 void TwoThreeNode::add(std::string key, int line){

@@ -24,7 +24,7 @@ using namespace std;
 using namespace std;
 
 bool TwoThree::isEmpty() {
-    return root == NULL;
+    return root == nullptr;
 }
 
 // void TwoThree::contains() const{
@@ -73,7 +73,11 @@ void TwoThree::buildTree(ifstream & input){
             {
                 //Once word is formatted,call insert with the word, the line of the input
                 //file it came from, the root of our tree, and the distinct word counter
-                root->add(tempWord, line);
+                if(root == nullptr){
+                    root = &TwoThreeNode({tempWord},{{line}},{nullptr,nullptr},nullptr);
+                }else{
+                    root->add(tempWord, line);
+                }
                 //Increment our total number of words inserted
                 numWords++;
                 //Clear out tempWord so we can use it again
