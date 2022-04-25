@@ -74,7 +74,8 @@ void TwoThree::buildTree(ifstream & input){
                 //Once word is formatted,call insert with the word, the line of the input
                 //file it came from, the root of our tree, and the distinct word counter
                 if(root == nullptr){
-                    root = &TwoThreeNode({tempWord},{{line}},{nullptr,nullptr},nullptr);
+                    TwoThreeNode movingAround = TwoThreeNode({tempWord},{{line}},{nullptr,nullptr},nullptr);
+                    root = &movingAround;
                 }else{
                     root->add(tempWord, line);
                 }
