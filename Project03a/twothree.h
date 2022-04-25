@@ -12,7 +12,7 @@ using namespace std;
 
 class TwoThree{
     public: 
-        TwoThree();
+        TwoThree(){};
         void contains() const;
         bool isEmpty();
         void printTree(ostream & out = cout) const;
