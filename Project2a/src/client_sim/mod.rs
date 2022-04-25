@@ -63,31 +63,32 @@ pub fn client_dag_from_file(mut file : File) -> Result<dag::DAG<ClientNode>,std:
     let mut vertices : Vec<ClientNode> = Vec::new();
     let mut buf : String = String::new();
     match file.read_to_string(&mut buf){
-        Ok(T) => {},
+        Ok(_) => {},
         Err(e) => {return Err(e)}
     }
     let mut lines = buf.split('\n');
     loop {
         let line = match lines.next() {
-            Some(x) => {x},
+            Some(x) => {
+                if x.len() < 3 {
+                    break
+                }else{
+                    x
+                }
+            },
             None => {break}
         };
         vertices.push(ClientNode::from(line));
     }
-    //WONTFIX : issue with ezio I think? no newline at the end of the file means the last character gets eaten.
-    //Manual fix
-    //TODO : Embarrassingly O(n^2). Unsure if he cares? Should check
     for vertex_idx in 0..vertices.len(){
         for comp_vertex_idx in (vertex_idx+1)..vertices.len(){
             if vertices[vertex_idx].entry_time < vertices[comp_vertex_idx].entry_time &&
                 vertices[vertex_idx].exit_time <= vertices[comp_vertex_idx].entry_time {
-                    //if vertex_idx starts & ends b4 comp_vertex_id
                     vertices[vertex_idx].after_clients.push(comp_vertex_idx);
                     vertices[comp_vertex_idx].prior_clients.push(vertex_idx);
             } 
             else if vertices[comp_vertex_idx].entry_time < vertices[vertex_idx].entry_time &&
             vertices[comp_vertex_idx].exit_time <= vertices[vertex_idx].entry_time{
-                //if comp_vertex_idx starts & ends b4 vertex_id
                 vertices[vertex_idx].prior_clients.push(comp_vertex_idx);
                 vertices[comp_vertex_idx].after_clients.push(vertex_idx);
             }

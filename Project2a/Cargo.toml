@@ -1,0 +1,5 @@
+[package]
+name = "project-2"
+version = "1.0.0"
+edition = "2021"
+authors = ["Amit Deb <deb@sonoma.edu>", "Bob <demeterw@sonoma.edu>"]
