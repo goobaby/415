@@ -34,7 +34,6 @@ int main(int argc, char* argv[]) {
 		cin >> upperchoice;
 
 		if (upperchoice == "b" or upperchoice == "B"){
-			cout<< "buh";
 			tree2.buildTree(input);
 
 			input.close();
@@ -50,6 +49,7 @@ int main(int argc, char* argv[]) {
 			//Search index for a word
 			else if(choice == 2){
 					//tree2.contains();
+					tree2.contains(cout);
 			}
 
 			//Save index

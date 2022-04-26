@@ -1,11 +1,4 @@
-//Prototypes for the 2-3 tree class
 
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <vector>
-
-#include "TwoThree.h"
 
 using namespace std;
 
@@ -58,6 +51,7 @@ void TwoThree::buildTree(ifstream & input){
 		//Read a whole line of text from the file
 		getline(input, tempLine);
 		for (int i = 0; i < tempLine.length(); i++) {
+
 		    //Insert valid chars into tempWord until a delimiter( newline or space) is found
 		    while (tempLine[i] != ' '&& tempLine[i] != '\n' && i < tempLine.length() ) {
 			tempWord.insert(tempWord.end(), tempLine[i]);
@@ -74,9 +68,17 @@ void TwoThree::buildTree(ifstream & input){
                 //Once word is formatted,call insert with the word, the line of the input
                 //file it came from, the root of our tree, and the distinct word counter
                 if(root == nullptr){
-                    TwoThreeNode movingAround = TwoThreeNode({tempWord},{{line}},{nullptr,nullptr},nullptr);
-                    root = &movingAround;
+                    //cout << "hello!\n";
+                    root = new TwoThreeNode(vector<string>{tempWord},
+                        vector< vector<int> >{{line}},
+                        vector<TwoThreeNode*>{nullptr,nullptr},nullptr);
                 }else{
+                    int notNullptr = 0;
+                    for(int i = 0; i < root->children.size(); i++){
+                        notNullptr = root->children[i] != nullptr;
+                    }
+                    //cout << root->keys.size()  << ' ' << root->children.size() << ' ' << numWords << ' ' << notNullptr << '\n';
+                    
                     root->add(tempWord, line);
                 }
                 //Increment our total number of words inserted
@@ -86,30 +88,54 @@ void TwoThree::buildTree(ifstream & input){
 		    }
 			
 		}
+        //printTree(cout);
 		line++;
         	//Do time and height calculation
-        finishTime = clock();
-        totalTime = (double) (finishTime - startTime)/CLOCKS_PER_SEC;
+
         //treeHeight = findHeight(root);
 
         //Print output
-        cout << setw(40) << std::left;
-        cout << "Total number of words: " << numWords<< endl;
-
-        cout << setw(40) << std::left 
-        << "Total number of distinct words: " << distWords << endl;
-
-        cout << setw(40) << std::left 
-        <<"Total time spent building index: " << totalTime << endl;
-
-        cout << setw(40) << std::left
-        <<"Height of 2-3 Tree is : " << treeHeight << endl;
     }
+    finishTime = clock();
+    totalTime = (double) (finishTime - startTime)/CLOCKS_PER_SEC;
+    cout << setw(40) << std::left;
+    cout << "Total number of words: " << numWords<< endl;
+
+    cout << setw(40) << std::left 
+    << "Total number of distinct words: " << root->count() << endl;
+
+    cout << setw(40) << std::left 
+    <<"Total time spent building index: " << totalTime << endl;
+
+    cout << setw(40) << std::left
+    <<"Height of 2-3 Tree is : " << root->height() << endl;
 }
 
 
 
 //Called by printTree(), does the actual formatted printing
+
+void TwoThree::printTreeHelper(TwoThreeNode *t, ostream & out) const{
+    for(int i = 0; i < t->keys.size(); i++){
+        if(t->children[i] != nullptr){
+            printTreeHelper(t->children[i],out);
+            //print t->keys[i]
+        }
+        out << setw(30) << std::left;
+	    out << t->keys.at(i) << " ";
+        for(int j = 0; j < t->lines.at(i).size()-1; j++){
+            out << t->lines.at(i).at(j) << ",";
+        }
+        if(t->lines.at(i).size() > 0)
+            out << t->lines.at(i).back() << '\n';
+        else
+            out << "huh\n";
+    }
+    if(t->children[t->children.size()-1] != nullptr){
+        printTreeHelper(t->children[t->children.size()-1],out);
+    }
+}
+/*
 void TwoThree::printTreeHelper(TwoThreeNode *t, ostream & out) const{
     if(t == NULL)
 		return;
@@ -188,7 +214,7 @@ void TwoThree::printTreeHelper(TwoThreeNode *t, ostream & out) const{
         printTreeHelper(t->children.at(2), out);
     }
 }
-
+*/
 //Returns height of tree. If tree has only one node, height is 1    
 // int TwoThree::findHeight(TwoThreeNode *t){
 //     if(t == NULL)
@@ -201,3 +227,23 @@ void TwoThree::printTreeHelper(TwoThreeNode *t, ostream & out) const{
 // 	    return(rightHeight+1);
 //     }
 // }
+
+bool TwoThree::contains(ostream & out) {
+    std::string input;
+    cin >> input;
+    TwoThreeNode *found = this->root->find(input);
+    if(found != nullptr){
+        for(int i = 0; i < found->keys.size(); i++){
+            if(found->keys[i] == input){
+                out << "Line Numbers: " << found->lines[i][0];
+                for(int j = 1; j < found->lines[i].size();j++){
+                    out << ", " << found->lines[i][j];
+                }
+                out << '\n';
+            }
+        }
+    }else{
+        out << input << " is not in the document\n";
+    }
+
+}

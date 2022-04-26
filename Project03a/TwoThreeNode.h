@@ -7,7 +7,10 @@
 
 class TwoThreeNode {
     public:
-        TwoThreeNode(std::vector<std::string> keys, std::vector<std::vector<int>> lines, std::vector<TwoThreeNode *> children, TwoThreeNode * parent) : keys(keys), lines(lines), children(children), parent(parent) {};
+        TwoThreeNode(std::vector<std::string> keys, std::vector<std::vector<int>> lines, std::vector<TwoThreeNode *> children, TwoThreeNode * parent) : keys(keys), lines(lines), children(children), parent(parent) {
+            keys.reserve(3);
+            children.reserve(4);
+        };
         std::vector<std::string> keys;
         std::vector<std::vector<int>> lines;
         std::vector<TwoThreeNode *> children;
@@ -15,9 +18,11 @@ class TwoThreeNode {
 
         bool isTwoNode();
         void insert(std::string key);
-        TwoThreeNode * find(std::string key);
+        TwoThreeNode* find(std::string key);
         void add(std::string key, int line);
         bool isLeaf();
+        int count();
+        int height();
     private:
         void promote();
         int addTo(std::string key, std::vector<int> lines);
