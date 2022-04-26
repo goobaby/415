@@ -13,10 +13,12 @@ using namespace std;
 class TwoThree{
     public: 
         TwoThree(){};
-	    bool contains(ostream & out);
+	    void contains(ostream & out);
         bool isEmpty();
         void printTree(ostream & out = cout) const;
         void buildTree(ifstream & input);
+
+        void find(string wordTo);
     private:
 	TwoThreeNode * root = nullptr;
 	void insertHelper(const string &X, int line, TwoThreeNode *& t, int &distWords);

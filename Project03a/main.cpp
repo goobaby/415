@@ -4,6 +4,9 @@
 
 #include <iostream>
 #include <fstream>
+#include "time.h"
+#include <iomanip>
+#include <sstream>
 #include "bst.h"
 #include "TwoThree.h"
 
@@ -101,6 +104,108 @@ int main(int argc, char* argv[]) {
 				break;
 				}
 	}
+	else if(upperchoice == "c" or upperchoice == "C") {
+
+		myTree.buildTree(input);
+		//
+		
+		//process index for BST
+			int line = 1, numWords = 0, distWords = 0, treeHeight = 0;
+			stringstream tempWord;
+			double BSTtotalTime, BSTfinishTime, BSTstartTime = clock();
+			while (!input.eof()) {
+				string tempLine, tempWord;
+
+				//Read a whole line of text from the file
+				getline(input, tempLine);
+				for (int i = 0; i < tempLine.length(); i++) {
+					//Insert valid chars into tempWord until a delimiter( newline or space) is found
+					while (tempLine[i] != ' '&& tempLine[i] != '\n' && i < tempLine.length() ) {
+					tempWord.insert(tempWord.end(), tempLine[i]);
+					i++;
+					}
+				
+					//Trim any punctuation off end of word. Will leave things like apostrophes
+					//and decimal points
+					while(tempWord.length() > 0 && !isalnum(tempWord[tempWord.length() - 1]))
+						tempWord.resize(tempWord.size() -1);   
+					
+					if (tempWord.length() > 0)
+					{
+						///Search For every word
+						myTree.find(tempWord);
+						//Increment our total number of words inserted
+						numWords++;
+						//Clear out tempWord so we can use it again
+						tempWord.clear();
+					}
+					
+				}
+				line++;
+			}
+			BSTfinishTime = clock();
+			BSTtotalTime = (double) (BSTfinishTime - BSTtotalTime)/CLOCKS_PER_SEC;
+			//Calculations
+
+			cout << "Total time taken by BST: " << BSTtotalTime << endl;
+			input.close();
+
+
+
+
+			//2-3 Time
+
+
+
+			ifstream inputTwo(argv[1]);
+			if(inputTwo.is_open())
+			{
+				tree2.buildTree(inputTwo);
+				
+				int line = 1, numWords = 0, distWords = 0, treeHeight = 0;
+				stringstream tempWord;
+				double twoThreetotalTime, twoThreefinishTime, twoThreestartTime = clock();
+				while (!inputTwo.eof()) {
+					string tempLine, tempWord;
+
+					//Read a whole line of text from the file
+					getline(inputTwo, tempLine);
+					for (int i = 0; i < tempLine.length(); i++) {
+						//Insert valid chars into tempWord until a delimiter( newline or space) is found
+						while (tempLine[i] != ' '&& tempLine[i] != '\n' && i < tempLine.length() ) {
+						tempWord.insert(tempWord.end(), tempLine[i]);
+						i++;
+						}
+					
+						//Trim any punctuation off end of word. Will leave things like apostrophes
+						//and decimal points
+						while(tempWord.length() > 0 && !isalnum(tempWord[tempWord.length() - 1]))
+							tempWord.resize(tempWord.size() -1);   
+						
+						if (tempWord.length() > 0)
+						{
+							///Search For every word
+							tree2.find(tempWord);
+							//Increment our total number of words inserted
+							numWords++;
+							//Clear out tempWord so we can use it again
+							tempWord.clear();
+						}
+						
+					}
+					line++;
+				}
+				twoThreefinishTime = clock();
+				twoThreetotalTime = (double) (twoThreefinishTime - twoThreetotalTime)/CLOCKS_PER_SEC;
+				//Calculations
+
+				cout << "Total time taken by 2-3 Tree: " << twoThreetotalTime << endl;
+				inputTwo.close();
+			}
+
+
+
+		}
 	else{
 	    cout << "Invalid File Name. Restart Program.\n";
 	    return 2;

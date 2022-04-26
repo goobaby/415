@@ -119,6 +119,29 @@ void BST::insertHelper(const string &x, int line, node *& t, int &distWord){
     }
 }
 
+//Simple conatine
+void BST::find(string wordTo) const{
+		node *foundNode = NULL;
+  
+    	if(containsHelper(wordTo, root, foundNode)){
+	    // cout << "Line Numbers: " << foundNode->lines[0];
+	    // for(int i = 1; i < foundNode->lines.size(); i++)
+		// cout << ", " <<foundNode->lines[i]; 
+	    // cout << '\n';
+	    }
+	else {
+	   cout << '\"' << wordTo <<"\" is not in the document\n";  //SOMETHING WENT WRONG
+	}
+}
+
+
+
+
+
+
+
+
+
 //Used by contains() to see if a words is present or not. Will
 //give contains() a pointer to the found node so that contains()
 //can prints the lines the word was found on.

@@ -228,7 +228,7 @@ void TwoThree::printTreeHelper(TwoThreeNode *t, ostream & out) const{
 //     }
 // }
 
-bool TwoThree::contains(ostream & out) {
+void TwoThree::contains(ostream & out) {
     std::string input;
     cin >> input;
     TwoThreeNode *found = this->root->find(input);
@@ -246,4 +246,22 @@ bool TwoThree::contains(ostream & out) {
         out << input << " is not in the document\n";
     }
 
+}
+
+
+void TwoThree::find(string wordTo) {
+    TwoThreeNode *found = this->root->find(wordTo);
+    if(found != nullptr){
+        for(int i = 0; i < found->keys.size(); i++){
+            if(found->keys[i] == wordTo){
+                // out << "Line Numbers: " << found->lines[i][0];
+                // for(int j = 1; j < found->lines[i].size();j++){
+                //     cout << ", " << found->lines[i][j];
+                // }
+                // cout << '\n';
+            }
+        }
+    }else{
+        cout << wordTo << " is not in the document\n";
+    }
 }
