@@ -1,5 +1,6 @@
 #Task 2
-
+totalbasicA = 0
+totalbasicB = 0
 def merge_sort(arr):
     # The last array split
     if len(arr) <= 1:
@@ -12,13 +13,13 @@ def merge_sort(arr):
 
 
 def merge(left, right, merged):
-    mergecount = 0
+    global totalbasicA
     leftmost, rightmost = 0, 0
     while leftmost < len(left) and rightmost < len(right):
-      
+        totalbasicA += 1
         # Sort each one and place into the result
         if left[leftmost] >= right[rightmost]:
-            mergecount += 1
+            
             merged[leftmost+rightmost]=left[leftmost]
             leftmost += 1
         else:
@@ -56,6 +57,7 @@ def grabbingOptimal(ratio, capacity):
 def max_heapify(A,i):
     l = 2 * i + 1
     r = 2 * i + 2
+    global totalbasicB
     if l < len(A) and A[l] > A[i]:
         largest = l
     else:
@@ -64,6 +66,7 @@ def max_heapify(A,i):
         largest = r
     if largest != i:
         A[i], A[largest] = A[largest], A[i]
+        totalbasicB += 1
         max_heapify(A, largest)
 
 def build_max_heap(A):
@@ -75,7 +78,32 @@ def build_max_heap(A):
 def deletemax(A, n):
     A[n], A[0] = A[0], A[n]
     A.pop()
-    
+    global totalbasicB
+    totalbasicB += 1
+
+def gettingvaluesfromoptimal(A):
+    totvalues = 0
+    for index, tuple in enumerate(A):
+        totvalues += tuple[0]
+        
+        global totalbasicB
+        totalbasicB += 1
+        global totalbasicA
+        totalbasicA += 1
+        
+    return totvalues
+
+def gettingindexfromoptimal(A):
+    totvalues = []
+    for index, tuple in enumerate(A):
+        totvalues.append(tuple[2])
+        
+        global totalbasicB
+        totalbasicB += 1
+        global totalbasicA
+        totalbasicA += 1
+        
+    return totvalues
 
 def greedyapproach(weights, values, capacity):
     ratioarray = merge_sort(combine(weights, values))
@@ -83,8 +111,16 @@ def greedyapproach(weights, values, capacity):
     optimalarray = grabbingOptimal(ratioarray, capacity)
     #print(optimalarray)
     
-    heaparray = combine(weights, values)
+    totalvalue = gettingvaluesfromoptimal(optimalarray)
+    print("(2a) Greedy Approach Optimal value: ", totalvalue)
+    indexset = gettingindexfromoptimal(optimalarray)
+    print("(2a) Greedy Approach Optimal subset: ", indexset)
     
+    print("(2a) Greedy Approach Total Basic Ops: ", totalbasicA, "\n")
+    
+    #----------------------------------------------------------
+    
+    heaparray = combine(weights, values)
     
     build_max_heap(heaparray)
 
@@ -97,13 +133,19 @@ def greedyapproach(weights, values, capacity):
         n = len(heaparray) -1 
         deletemax(heaparray, n)
         build_max_heap(heaparray)
-    print (optimalheaparry)
-
+    #print (optimalheaparry)
+    
+    totalheapvalue = gettingvaluesfromoptimal(optimalheaparry)
+    print("(2b) Heap-based Greedy Approach Optimal value: ", totalheapvalue)
+    heapindexset = gettingindexfromoptimal(optimalheaparry)
+    print("(2b) Heap-based Greedy Approach Optimal subset: ",heapindexset)
+    
+    print("(2b) Heap-based Greedy Approach Total Basic Ops: ", totalbasicB, "\n")
         
 
         
 
-values = [10, 20, 2, 4, 8, 6, 5, 7, 9, 1, 3]
-weights = [1, 2, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+# values = [10, 20, 2, 4, 8, 6, 5, 7, 9, 1, 3]
+# weights = [1, 2, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
-greedyapproach(weights, values, 15)
+# greedyapproach(weights, values, 15)
