@@ -1,5 +1,4 @@
-from zmq import has
-
+import numpy as np
 
 class PyLL:
     def __init__(self,value,nextItem):
@@ -14,30 +13,22 @@ class PyHashTable:
     def calcHash(self,item,c):
         return ((item-1)*self.__total + c) % self.capacity
     def get(self,item,c):
-        #if item <= 0 or c <= 0:
-        #    return 0,2 added as optimization but unfair to other programs
+        if item <= 0 or c <= 0:
+            return 0,2
         LLEntry = self.arr[self.calcHash(item,c)]
-        ops = 4
-        LLValue = None
-        while LLEntry != None and (LLEntry.value.item != item or LLEntry.value.c != c):
+        ops = 6
+        while LLEntry != None:
+            if LLEntry.value.item == item and LLEntry.value.c == c:
+                return LLEntry.value.value, ops
             ops += 3
             LLEntry = LLEntry.next
-        ops = 1 + [0,2][LLEntry != None]
-        return LLEntry.value.value if LLEntry != None and LLEntry.value.item == item and LLEntry.value.c == c else None, ops+1
+        return None, ops
     def insert(self,item,c,value):
         
         ourHash = self.calcHash(item,c)
         LLEntry = self.arr[ourHash]
         ops = 5 # 4 arithmetic and 1 comparison
-        newEntry = PyLL(PyMFKItem(item,c,value),None)
-        if LLEntry == None:
-            self.arr[ourHash] = newEntry
-        else:
-            while LLEntry.next != None:
-                ops += 1
-                LLEntry = LLEntry.next
-            ops += 1
-            LLEntry.next = newEntry
+        self.arr[ourHash] = PyLL(PyMFKItem(item,c,value),LLEntry)
         return ops
 class PyMFKItem:
     def __init__(self,item,c,value) -> None:
@@ -46,20 +37,28 @@ class PyMFKItem:
         self.value = value
 def DPKnapsack(weights,values,capacity):
     ops = 0
-    memory = [[0]]
-    for c in range(1,capacity+1):
-        ops += 2 #1 piece of arithmetic and 1 comparison
-        memory[0].append(0)
+    #memory = [[0]*(capacity+1)]
+    memory = np.full((len(weights),capacity+1),-1)
+    for c in range(capacity+1):
+        ops += 2
+        #memory.append([-1]*(capacity+1))
+        memory[0][c] = 0
+    for item in range(1,len(weights)):
+        ops += 2
+        #memory.append([-1]*(capacity+1))
+        memory[item][0] = 0
     for item in range(1,len(weights)):
         ops += 2 #1 piece of arithmetic and 1 comparison
-        memory.append([0])
-        for c in range(1,weights[item]):
+        #memory.append([0])
+        itemWeight = weights[item]
+        itemValue = values[item]
+        for c in range(1,itemWeight):
             ops += 4 #2 pieces of arithmetic and 2 comparisons
-            memory[item].append(memory[item-1][c])
-        for c in range(weights[item],capacity+1):
+            memory[item][c] = (memory[item-1][c])
+        for c in range(itemWeight,capacity+1):
             ops += 6 #4 pieces of arithmetic and 2 comparisons
-            maxVal = max(memory[item-1][c], values[item] + memory[item-1][c-weights[item]])
-            memory[item].append(maxVal)
+            maxVal = max(memory[item-1][c], itemValue + memory[item-1][c-itemWeight])
+            memory[item][c] = maxVal
     
     item = len(weights)-1
     c = capacity
@@ -94,17 +93,16 @@ def MFKnapsackHelper(weights,values,memory,item,c):
 
 
 def MFKnapsack(weights,values,capacity):
-    memory = [[]]
-    ops = 0
-    for item in range(capacity+1):
+    ops = 1
+    memory = np.full((len(weights),capacity+1),-1)
+    for c in range(capacity+1):
         ops += 2
-        memory[0].append(0)
+        #memory.append([-1]*(capacity+1))
+        memory[0][c] = 0
     for item in range(1,len(weights)):
         ops += 2
-        memory.append([0])
-        for c in range(1,capacity+1):
-            ops += 2
-            memory[item].append(-1)
+        #memory.append([-1]*(capacity+1))
+        memory[item][0] = 0
     _, newOps = MFKnapsackHelper(weights,values,memory,len(weights)-1,capacity)
     ops += newOps
     #for item in memory:
@@ -135,17 +133,20 @@ def LLMFKnapsackHelper(weights,values,memory,item,c,ops):
         ops += memory.insert(item,c,value)
     return value, ops
 
-def LLMFKnapsack(weights,values,capacity,k=-1,retSpace = False):
+def LLMFKMultiHelper(args):
+    return *LLMFKnapsack(*args),args[-1]
+
+def LLMFKnapsack(weights,values,capacity,k=-1,retSpace = True):
     if k == -1:
-        k = capacity*2
+        k = capacity
     hashTable = PyHashTable(k,len(weights)-1)
-    ops = k*2 + 2
-    for i in range(capacity+1):
-        ops += 2
-        hashTable.insert(0,i,0)
-    for i in range(len(weights)-1):
-        ops += 2
-        hashTable.insert(i,0,0)
+    ops = 2
+    #for i in range(capacity+1):
+    #    ops += 2
+    #    hashTable.insert(0,i,0)
+    #for i in range(len(weights)-1):
+    #    ops += 2
+    #    hashTable.insert(i,0,0)
     value, ops = LLMFKnapsackHelper(weights,values,hashTable,len(weights)-1,capacity,ops)
     item = len(weights)-1
     c = capacity
