@@ -1,5 +1,6 @@
 import graphs
 import task1
+import task2
 
 if __name__ == '__main__':
     filePrefix = input("common file prefix (for example, KnapsackTestData\\p01_c's prefix is KnapsackTestData\\p01_):")
@@ -42,3 +43,4 @@ if __name__ == '__main__':
     #printResults("(1b) Memory-function Dynamic Programming",*MFKResults)
     #printResults("(1c) Space-efficient Dynamic Programming",*LLMFKResults)
 
+task2.greedyapproach(weights, values, capacity)
