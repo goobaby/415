@@ -26,11 +26,11 @@ def merge(left, right, merged):
             merged[leftmost + rightmost] = right[rightmost]
             rightmost += 1
             
-    for leftmost in range(leftmost, len(left)):
-        merged[leftmost + rightmost] = left[leftmost]
+    for l in range(leftmost, len(left)):
+        merged[l + rightmost] = left[l]
         
-    for rightmost in range(rightmost, len(right)):
-        merged[leftmost + rightmost] = right[rightmost]
+    for r in range(rightmost, len(right)):
+        merged[leftmost + r] = right[r]
 
     return merged
 

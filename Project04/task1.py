@@ -1,13 +1,14 @@
 import numpy as np
 
 class PyLL:
-    def __init__(self,value,nextItem):
+    def __init__(self,key,value : int,nextItem):
+        self.key = key
         self.value = value
         self.next = nextItem
 
 class PyHashTable:
     def __init__(self,capacity,totalItems):
-        self.arr = [None] * capacity
+        self.arr = np.full((capacity),None,dtype=PyLL)
         self.__total = totalItems
         self.capacity = capacity
     def calcHash(self,item,c):
@@ -17,9 +18,10 @@ class PyHashTable:
             return 0,2
         LLEntry = self.arr[self.calcHash(item,c)]
         ops = 6
+        key = (item,c)
         while LLEntry != None:
-            if LLEntry.value.item == item and LLEntry.value.c == c:
-                return LLEntry.value.value, ops
+            if LLEntry.key == key:
+                return LLEntry.value, ops
             ops += 3
             LLEntry = LLEntry.next
         return None, ops
@@ -28,13 +30,8 @@ class PyHashTable:
         ourHash = self.calcHash(item,c)
         LLEntry = self.arr[ourHash]
         ops = 5 # 4 arithmetic and 1 comparison
-        self.arr[ourHash] = PyLL(PyMFKItem(item,c,value),LLEntry)
+        self.arr[ourHash] = PyLL((item,c),value,LLEntry)
         return ops
-class PyMFKItem:
-    def __init__(self,item,c,value) -> None:
-        self.item = item
-        self.c = c
-        self.value = value
 def DPKnapsack(weights,values,capacity):
     ops = 0
     #memory = [[0]*(capacity+1)]
@@ -54,7 +51,7 @@ def DPKnapsack(weights,values,capacity):
         itemValue = values[item]
         for c in range(1,itemWeight):
             ops += 4 #2 pieces of arithmetic and 2 comparisons
-            memory[item][c] = (memory[item-1][c])
+            memory[item][c] = memory[item-1][c]
         for c in range(itemWeight,capacity+1):
             ops += 6 #4 pieces of arithmetic and 2 comparisons
             maxVal = max(memory[item-1][c], itemValue + memory[item-1][c-itemWeight])
