@@ -1,5 +1,6 @@
 from multiprocessing import Pool, TimeoutError
 import task1
+import task2
 import matplotlib.pyplot as plt
 import numpy as np
 from math import ceil
@@ -7,7 +8,7 @@ from math import ceil
 
 def parseFile(filename):
     with open(filename) as f:
-        result = [0]
+        result = []
         for i in f.readlines():
             result.append(int(i))
     return result
@@ -112,4 +113,29 @@ def graphTwoB(weights,values,capacity,testCase,showMFK = False):
     plt.xlabel('Space Taken')
     plt.ylabel('Basic Operations')
     
+    return plt
+
+def graphThree(fileMin,fileMax):
+    data = [[],[],[]]
+    for weights, values, capacity in allGraphData(min=fileMin,max=fileMax):
+        basicResults = task2.basicgreedyapproach(weights,values,capacity)
+        heapResults = task2.heapgreedyapproach(weights,values,capacity)
+        #LLMFKResults = task1.LLMFKnapsack(weights,values,capacity)
+        data[0].append(basicResults)
+        data[1].append(heapResults)
+        #data[2].append(LLMFKResults[2])
+        print("built for another test case")
+    X = np.arange(fileMin,fileMax)
+    plt.title("Relative Performance of Algorithms")
+    plt.xlabel("Test Case")
+    plt.ylabel("Basic Operations")
+    plt.xticks(list(map(lambda x: x+0.375/2,X)),list(map(lambda x: "p0" + str(x),X)))
+    #ax = fig.add_axes([0,0,1,1])
+    plt.bar(X + 0.00, data[0], width = 0.375)
+    plt.bar(X + 0.375, data[1], width = 0.375)
+    #plt.bar(X + 0.50, data[2], width = 0.25)
+    #plt.legend(labels = ["Traditional","Memory Function","Space-Efficient"])
+    plt.legend(labels = ["Sorting","Max Heap"])
+    #plt.yscale('log')
+    plt.grid(axis='y')
     return plt

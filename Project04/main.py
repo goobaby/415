@@ -1,7 +1,7 @@
 import graphs
 import sys
 import task1
-import Task2
+import task2
 from pathlib import Path
 
 if __name__ == '__main__':
@@ -44,16 +44,17 @@ if __name__ == '__main__':
         graph.close()
         print(graphName,"complete!")
 
-    if True:
+    if False:
         #runGraph(graphs.graphOne,(0,8),"One-Eightless")
 
         #runGraph(graphs.graphOne,(0,9),"One-Eighted") 
         #runGraph(graphs.graphTwoA,(),"TwoA")
-        runGraph(graphs.graphTwoB,(weights,values,capacity,"p08"),"TwoBYes",showMFK=True)
-        runGraph(graphs.graphTwoB,(weights,values,capacity,"p08"),"TwoBNo")
+        #runGraph(graphs.graphTwoB,(weights,values,capacity,"p08"),"TwoBYes",showMFK=True)
+        #runGraph(graphs.graphTwoB,(weights,values,capacity,"p08"),"TwoBNo")
+        runGraph(graphs.graphThree,(0,9),"Three")
     else:
         printResults("(1a) Traditional Dynamic Programming",*task1.DPKnapsack(weights,values,capacity))
         printResults("(1b) Memory-function Dynamic Programming",*task1.MFKnapsack(weights,values,capacity))
         printResultsSpace("(1c) Space-efficient Dynamic Programming",*task1.LLMFKnapsack(weights,values,capacity))
 
-        Task2.greedyapproach(weights, values, capacity)
+        task2.greedyapproach(weights, values, capacity)

@@ -141,6 +141,38 @@ def greedyapproach(weights, values, capacity):
     print("(2b) Heap-based Greedy Approach Optimal subset: ",heapindexset)
     
     print("(2b) Heap-based Greedy Approach Total Basic Ops: ", totalbasicB, "\n")
+    
+def basicgreedyapproach(weights, values, capacity):
+    #totalbasicA = 0
+    ratioarray = merge_sort(combine(weights, values))
+    #print(ratioarray)
+    optimalarray = grabbingOptimal(ratioarray, capacity)
+    #print(optimalarray)
+    
+    #gettingvaluesfromoptimal(optimalarray)
+    #gettingindexfromoptimal(optimalarray)
+    return totalbasicA + 1
+
+def heapgreedyapproach(weights, values, capacity):
+    #totalbasicB = 0
+    heaparray = combine(weights, values)
+    
+    build_max_heap(heaparray)
+
+    capacityheap = capacity
+    optimalheaparry = []
+    for i in range(len(heaparray)):
+        if heaparray[0][1] <= capacityheap :
+            capacityheap -= heaparray[0][1]
+            optimalheaparry.append(heaparray[0])  
+        n = len(heaparray) -1 
+        deletemax(heaparray, n)
+        build_max_heap(heaparray)
+    #print (optimalheaparry)
+    
+    #gettingvaluesfromoptimal(optimalheaparry)
+    #gettingindexfromoptimal(optimalheaparry)
+    return totalbasicB + 1
         
 
         
